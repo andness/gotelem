@@ -15,7 +15,7 @@
 package goruntime
 
 import (
-	telem "gotelem"
+	telem "github.com/andness/gotelem"
 	"runtime"
 	"time"
 )

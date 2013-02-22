@@ -1,8 +1,8 @@
 package main
 
 import (
-	telem "gotelem"
-	_ "gotelem/goruntime"
+	telem "github.com/andness/gotelem"
+	_ "github.com/andness/gotelem/goruntime"
 	"log"
 	"math/rand"
 	"net/http"
