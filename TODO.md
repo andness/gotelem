@@ -1,5 +1,12 @@
 ## TODO ##
 
+    - Update to Go 1.1, a few cases of passing around methods as funcs
+      that we can clean up.
+
+    - Add an all-time summarizer that doesn't keep a list of seen
+      observations but instead just keeps running totals for
+      AVG,COUNT,MIN,MAX,SUM.
+
     - Need to clean up the path handling in the http publisher
 
     - Documentation

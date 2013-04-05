@@ -30,6 +30,7 @@ func NewCallbackObserver(callback func(time.Time) []*Observation, samplingInterv
 }
 
 func (o *CallbackObserver) makeBackCaller(callback func(time.Time) []*Observation, summarizerWindows []time.Duration) func(t time.Time) {
+	// TODO(go1.1)
 	// In Go 1.1 we apparently will be allowed to pass around methods
 	// just like we pass around funcs. Then we can move the state to
 	// the CallbackObserver itself and just pass this method to the

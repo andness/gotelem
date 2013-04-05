@@ -21,6 +21,7 @@ func NewCounter(name string, samplingInterval time.Duration, summarizerWindows [
 	counter = &Counter{
 		name:     name,
 		rateUnit: rateUnit(samplingInterval)}
+	// TODO(go1.1)
 	// We'll need this until Go 1.1 allows us to pass methods around
 	// just like funcs
 	sample := func(t time.Time) {

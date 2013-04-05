@@ -25,6 +25,7 @@ func NewObserver(name string, samplingInterval time.Duration, summarizerWindows 
 	observer = &Observer{
 		name:    name,
 		timeNow: time.Now}
+	// TODO(go1.1)
 	// :( http://code.google.com/p/go/issues/detail?id=2280
 	sample := func(t time.Time) {
 		observer.sample(t)
