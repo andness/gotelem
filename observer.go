@@ -21,7 +21,7 @@ func (o *Observer) Observe(value float64) {
 	o.broadcast(obs)
 }
 
-func NewObserver(name string, samplingInterval time.Duration, summarizerWindows []time.Duration, httpPublisher receiver, log io.Writer) (observer *Observer) {
+func NewObserver(name string, samplingInterval time.Duration, summarizerWindows []time.Duration, httpPublisher *HTTPPublisher, log io.Writer) (observer *Observer) {
 	observer = &Observer{
 		name:    name,
 		timeNow: time.Now}
