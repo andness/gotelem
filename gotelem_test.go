@@ -3,6 +3,7 @@ package gotelem
 import (
 	"fmt"
 	"math/rand"
+	"os"
 	"runtime"
 	"testing"
 	"time"
@@ -21,7 +22,7 @@ func makeMockTimeNow(initial time.Time, increment time.Duration) func() time.Tim
 func TestSmokeTestObserver(t *testing.T) {
 	rand.Seed(1337)
 	factory := &Factory{
-		Logger:            func(v ...interface{}) {},
+		Logger:            os.Stdout,
 		SamplingInterval:  time.Second,
 		SummarizerWindows: []time.Duration{time.Minute},
 		HTTPPublisher:     DefaultHTTPPublisher}

@@ -2,17 +2,18 @@ package gotelem
 
 import (
 	"fmt"
+	"io"
 )
 
-func newLogger(logFunc func(v ...interface{})) (l *logger) {
-	l = &logger{inbox: make(chan *Observation, 128), logFunc: logFunc}
+func newLogger(sink io.Writer) (l *logger) {
+	l = &logger{inbox: make(chan *Observation, 128), sink: sink}
 	go l.process()
 	return
 }
 
 type logger struct {
-	inbox   chan *Observation
-	logFunc func(v ...interface{})
+	inbox chan *Observation
+	sink  io.Writer
 }
 
 func (l *logger) receiverChannel() chan<- *Observation {
@@ -22,6 +23,6 @@ func (l *logger) receiverChannel() chan<- *Observation {
 func (l *logger) process() {
 	for {
 		o := <-l.inbox
-		l.logFunc(fmt.Sprintf("%v,%v,%v", o.Timestamp.UnixNano(), o.Name, o.Value))
+		fmt.Fprintf(l.sink, "%v,%v,%v", o.Timestamp.UnixNano(), o.Name, o.Value)
 	}
 }

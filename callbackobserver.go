@@ -1,6 +1,7 @@
 package gotelem
 
 import (
+	"io"
 	"time"
 )
 
@@ -14,7 +15,7 @@ type CallbackObserver struct {
 	broadcaster
 }
 
-func NewCallbackObserver(callback func(time.Time) []*Observation, samplingInterval time.Duration, summarizerWindows []time.Duration, httpPublisher receiver, logFunc func(v ...interface{})) (observer *CallbackObserver) {
+func NewCallbackObserver(callback func(time.Time) []*Observation, samplingInterval time.Duration, summarizerWindows []time.Duration, httpPublisher receiver, log io.Writer) (observer *CallbackObserver) {
 	observer = &CallbackObserver{}
 	if samplingInterval != 0 {
 		observer.Sampler = NewSampler(samplingInterval, observer.makeBackCaller(callback, summarizerWindows))
@@ -22,8 +23,8 @@ func NewCallbackObserver(callback func(time.Time) []*Observation, samplingInterv
 	if httpPublisher != nil {
 		observer.AddReceiver(httpPublisher)
 	}
-	if logFunc != nil {
-		observer.AddReceiver(newLogger(logFunc))
+	if log != nil {
+		observer.AddReceiver(newLogger(log))
 	}
 	return
 }
