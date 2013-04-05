@@ -23,6 +23,6 @@ func (l *logger) receiverChannel() chan<- *Observation {
 func (l *logger) process() {
 	for {
 		o := <-l.inbox
-		fmt.Fprintf(l.sink, "%v,%v,%v", o.Timestamp.UnixNano(), o.Name, o.Value)
+		fmt.Fprintf(l.sink, "%v,%v,%v\n", o.Timestamp.UnixNano(), o.Name, o.Value)
 	}
 }
