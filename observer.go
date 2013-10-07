@@ -1,7 +1,6 @@
 package gotelem
 
 import (
-	"io"
 	"time"
 )
 
@@ -21,7 +20,7 @@ func (o *Observer) Observe(value float64) {
 	o.broadcast(obs)
 }
 
-func NewObserver(name string, samplingInterval time.Duration, summarizerWindows []time.Duration, httpPublisher *HTTPPublisher, log io.Writer) (observer *Observer) {
+func NewObserver(name string, samplingInterval time.Duration, summarizerWindows []time.Duration, httpPublisher *HTTPPublisher, logger *Logger) (observer *Observer) {
 	observer = &Observer{
 		name:    name,
 		timeNow: time.Now}
@@ -41,8 +40,8 @@ func NewObserver(name string, samplingInterval time.Duration, summarizerWindows 
 	if httpPublisher != nil {
 		observer.AddReceiver(httpPublisher)
 	}
-	if log != nil {
-		observer.AddReceiver(newLogger(log))
+	if logger != nil {
+		observer.AddReceiver(logger)
 	}
 	return
 }

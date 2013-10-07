@@ -3,26 +3,32 @@ package gotelem
 import (
 	"fmt"
 	"io"
+	"os"
 )
 
-func newLogger(sink io.Writer) (l *logger) {
-	l = &logger{inbox: make(chan *Observation, 128), sink: sink}
+func NewLogger(sink io.Writer) (l *Logger) {
+	l = &Logger{inbox: make(chan *Observation, 128), sink: sink}
 	go l.process()
 	return
 }
 
-type logger struct {
+type Logger struct {
 	inbox chan *Observation
 	sink  io.Writer
 }
 
-func (l *logger) receiverChannel() chan<- *Observation {
+func (l *Logger) receiverChannel() chan<- *Observation {
 	return l.inbox
 }
 
-func (l *logger) process() {
+func (l *Logger) process() {
 	for {
 		o := <-l.inbox
-		fmt.Fprintf(l.sink, "%v,%v,%v\n", o.Timestamp.UnixNano(), o.Name, o.Value)
+		if _, err := fmt.Fprintf(l.sink, "%v,%v,%f", o.Timestamp.UnixNano(), o.Name, o.Value); err != nil {
+			fmt.Fprint(os.Stderr, "logger: Error from Fprintf: %s", err)
+		}
+		if _, err := fmt.Fprintln(l.sink); err != nil {
+			fmt.Fprint(os.Stderr, "logger: Error from Fprintln: %s", err)
+		}
 	}
 }

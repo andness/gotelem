@@ -1,12 +1,11 @@
 package gotelem
 
 import (
-	"io"
 	"time"
 )
 
 type Factory struct {
-	Logger            io.Writer
+	Logger            *Logger
 	SamplingInterval  time.Duration
 	SummarizerWindows []time.Duration
 	HTTPPublisher     *HTTPPublisher

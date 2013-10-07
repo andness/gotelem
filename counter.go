@@ -1,7 +1,6 @@
 package gotelem
 
 import (
-	"io"
 	"sync/atomic"
 	"time"
 )
@@ -17,7 +16,7 @@ type Counter struct {
 	prevSample       int64
 }
 
-func NewCounter(name string, samplingInterval time.Duration, summarizerWindows []time.Duration, httpPublisher *HTTPPublisher, log io.Writer) (counter *Counter) {
+func NewCounter(name string, samplingInterval time.Duration, summarizerWindows []time.Duration, httpPublisher *HTTPPublisher, logger *Logger) (counter *Counter) {
 	counter = &Counter{
 		name:     name,
 		rateUnit: rateUnit(samplingInterval)}
@@ -30,8 +29,8 @@ func NewCounter(name string, samplingInterval time.Duration, summarizerWindows [
 	if httpPublisher != nil {
 		counter.AddReceiver(httpPublisher)
 	}
-	if log != nil {
-		counter.AddReceiver(newLogger(log))
+	if logger != nil {
+		counter.AddReceiver(logger)
 	}
 	if samplingInterval != 0 {
 		counter.Sampler = NewSampler(samplingInterval, sample)
